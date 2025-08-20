@@ -1,0 +1,52 @@
+.grid {
+  display: table;
+  border-collapse: collapse;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  border: 1px solid #ccc;
+  width: 100px; /* Set a fixed width for cells */
+  height: 25px; /* Set a fixed height for cells */
+}
+
+.cell.active {
+  border: 2px solid #007bff; /* A blue border for the active cell */
+  outline: none;
+}
+
+.cell input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 2px;
+  box-sizing: border-box; /* Important for fitting inside the border */
+}
+
+.formula-bar-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.fx-label {
+  padding: 5px 10px;
+  font-style: italic;
+  color: #888;
+  border-right: 1px solid #ccc;
+}
+
+.formula-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-family: monospace;
+}
