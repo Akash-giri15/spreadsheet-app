@@ -1,52 +1,110 @@
+/* --- Modern Spreadsheet Styles (Using CSS Grid) --- */
+
+:root {
+  --grid-bg-color: #f8f9fa;
+  --cell-border-color: #e0e0e0;
+  --header-bg-color: #f1f3f4;
+  --header-text-color: #5f6368;
+  --active-cell-border-color: #1a73e8;
+  --font-family: 'Arial', sans-serif;
+  --font-size: 14px;
+}
+
+.grid-container {
+  width: 100%;
+  height: 70vh; /* Adjust height as needed */
+  overflow: auto; /* Enable scrolling */
+  border: 1px solid var(--cell-border-color);
+}
+
 .grid {
-  display: table;
-  border-collapse: collapse;
+  /* This is a placeholder for the grid content, no specific grid styles needed here */
 }
 
 .row {
-  display: table-row;
+  display: flex; /* Use Flexbox for rows for simplicity */
+  align-items: stretch;
 }
 
 .cell {
-  display: table-cell;
-  border: 1px solid #ccc;
-  width: 100px; /* Set a fixed width for cells */
-  height: 25px; /* Set a fixed height for cells */
+  min-width: 120px;
+  height: 30px;
+  padding: 4px 8px;
+  border-right: 1px solid var(--cell-border-color);
+  border-bottom: 1px solid var(--cell-border-color);
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
 }
 
-.cell.active {
-  border: 2px solid #007bff; /* A blue border for the active cell */
-  outline: none;
+/* Header Styles (A, B, C... and 1, 2, 3...) */
+.header-cell {
+  background-color: var(--header-bg-color);
+  font-weight: bold;
+  color: var(--header-text-color);
+  justify-content: center;
+  position: sticky;
+  z-index: 1;
 }
 
-.cell input {
+/* Make the entire header row sticky to the top */
+.header-row {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: var(--header-bg-color); /* Ensure background for sticky header */
+}
+
+/* Make the row number column sticky to the left */
+.row-header {
+  position: sticky;
+  left: 0;
+  min-width: 50px;
+  z-index: 1; /* Needs z-index to stay on top of data cells */
+  border-right: 1px solid #ccc; /* Add a stronger border */
+}
+
+/* Style the top-left corner cell */
+.corner {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3; /* Highest z-index to be on top of everything */
+  border-right: 1px solid #ccc;
+}
+
+/* Data Cell Specifics */
+.data-cell {
+  background-color: #fff;
+}
+
+.data-cell:hover {
+  background-color: #f1f3f4;
+}
+
+/* Active Cell Styles */
+.data-cell.active {
+  outline: 2px solid var(--active-cell-border-color);
+  outline-offset: -2px;
+  z-index: 4; /* Ensure active cell outline is visible */
+}
+
+.cell-input {
   width: 100%;
   height: 100%;
   border: none;
   outline: none;
-  padding: 0 2px;
-  box-sizing: border-box; /* Important for fitting inside the border */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 }
 
-.formula-bar-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
-
-.fx-label {
-  padding: 5px 10px;
-  font-style: italic;
-  color: #888;
-  border-right: 1px solid #ccc;
-}
-
-.formula-input {
-  width: 100%;
-  border: none;
-  outline: none;
-  padding: 5px;
-  font-family: monospace;
-}

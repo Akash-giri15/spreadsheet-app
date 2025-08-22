@@ -1,44 +1,56 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Cell = ({ rowIndex, colIndex, cellData, activeCell, onCellClick, onCellValueChange }) => {
+  const [editingValue, setEditingValue] = useState(cellData.value);
   const isActive = activeCell && activeCell.row === rowIndex && activeCell.col === colIndex;
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (isActive && inputRef.current) {
-      inputRef.current.focus();
+    if (isActive) {
+      setEditingValue(cellData.value);
+      inputRef.current?.focus();
     }
-  }, [isActive]);
+  }, [isActive, cellData.value]);
+
+  const handleCommitChange = () => {
+    onCellValueChange(rowIndex, colIndex, editingValue);
+    onCellClick(null, null);
+  };
 
   const handleInputChange = (e) => {
-    onCellValueChange(rowIndex, colIndex, e.target.value);
+    setEditingValue(e.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      onCellClick(null); 
-    }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleCommitChange();
   };
+
+  const className = `cell data-cell ${isActive ? 'active' : ''}`;
 
   if (isActive) {
     return (
-      <input
-        ref={inputRef}
-        className="cell active"
-        value={cellData.value}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        onBlur={() => onCellClick(null)}
-      />
+      <div className={className}>
+        <form onSubmit={handleFormSubmit}>
+          <input
+            ref={inputRef}
+            type="text"
+            className="cell-input"
+            value={editingValue}
+            onChange={handleInputChange}
+            onBlur={handleCommitChange}
+          />
+        </form>
+      </div>
     );
   }
 
   return (
-    <div 
-      className="cell"
+    <div
+      className={className}
       onClick={() => onCellClick(rowIndex, colIndex)}
     >
-      {cellData.value}
+      {cellData.displayValue}
     </div>
   );
 };
